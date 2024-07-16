@@ -1,7 +1,7 @@
 import speech_recognition as sr
 import webbrowser 
 import pyttsx3
-
+import musicLibrary
 
 r = sr.Recognizer()
 engine = pyttsx3.init()
@@ -15,18 +15,24 @@ def processCommand(c):
         webbrowser.open("https://google.com")
     elif "open whatsapp" in c.lower():
         webbrowser.open("https://web.whatsapp.com/")
-   
+    elif "open youtube" in c.lower():
+        webbrowser.open("https://www.youtube.com/")
+    elif c.lower().startswith("play"):
+        song = c.lower().split(" ")[1]
+        link = musicLibrary.music[song]
+        webbrowser.open(link)
+    elif "news" in c.lower():
+        r = request.get()
 if __name__== "__main__":
     speak("Initializing Jarvis.....")
     while True:
         #Listen for the wake word for jarvis
         # obtain audio from the microphone
         
-        # recognize speech using Sphinx
         try:
             with sr.Microphone() as source:
                 print("Listening.....")
-                audio = r.listen(source, timeout=2,phrase_time_limit=1)
+                audio = r.listen(source, timeout=5,phrase_time_limit=5)
             print("Recognizing.....")
             command = r.recognize_google(audio)
             if(command.lower()=="jarvis"):

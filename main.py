@@ -1,13 +1,27 @@
+import requests
 import speech_recognition as sr
 import webbrowser 
 import pyttsx3
 import musicLibrary
+from openai import OpenAI
+apikey = "############"#use your api
 
 r = sr.Recognizer()
 engine = pyttsx3.init()
 def speak(text):
     engine.say(text)
     engine.runAndWait()
+
+def aiProcess(command):
+    client = OpenAI(
+    api_key = "#########")#Use your api
+    completion = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "You are a virtual assistant named Jarvis skilled in general tasks like Alexa and Google Cloud"},
+        {"role": "user", "content": command}])
+
+    print(completion.choices[0].message.content)
 
 def processCommand(c):
     print(c)
@@ -22,7 +36,15 @@ def processCommand(c):
         link = musicLibrary.music[song]
         webbrowser.open(link)
     elif "news" in c.lower():
-        r = request.get()
+        r = requests.get(f"https://newsapi.org/v2/top-headlines?country=us&apiKey={apikey}")
+        if r.status_code == 200:
+            data = r.json()
+            articles = data.get('articles',[])
+            for article in articles:
+                speak(article['title'])
+    else:
+        output =aiProcess(c)
+        speak(output)
 if __name__== "__main__":
     speak("Initializing Jarvis.....")
     while True:

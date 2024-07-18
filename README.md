@@ -25,8 +25,7 @@ This project implements a virtual assistant named Jarvis, which can perform vari
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/deveshyaara/jarvis-assistant.git
-   cd jarvis-assistant
+   git clone https://github.com/deveshyaara/Jarvis.git
    ```
 
 2. **Install dependencies:**
